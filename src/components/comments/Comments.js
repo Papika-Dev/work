@@ -28,6 +28,7 @@ const Comments = ({ title, closeOnClick, bookId }) => {
       bookId: +bookId,
       text,
       author,
+      rating: +rating,
     };
     const resp = await fetch('/book/comment', {
       method: 'POST',
@@ -44,9 +45,11 @@ const Comments = ({ title, closeOnClick, bookId }) => {
       setMessage(true);
     }
   };
-  console.log(rating)
+
   const handleFormChangeEvents = (e) => {
-    setRating(e.target.value);
+    if (e.target.name === 'star') {
+      setRating(e.target.value);
+    }
     setMessage(false);
   };
   return (
