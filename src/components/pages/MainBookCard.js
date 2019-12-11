@@ -4,6 +4,7 @@ import { BookCardWrapper, ShowComBtn } from '../bookCard/bookCardStyles';
 import BookInfo from '../bookCard/BookInfo';
 import PriceInfo from '../bookCard/PriceInfo';
 import Comments from '../comments/Comments';
+import CommentBLock from '../bookCard/CommentBlock';
 
 const MainBookCard = () => {
   const [info, setInfo] = useState(null);
@@ -51,6 +52,7 @@ const MainBookCard = () => {
             <PriceInfo price={info.price} />
           </>
         )}
+        <CommentBLock />
         <ShowComBtn onClick={handleShowCommentBlock}>
           Написать отзыв
         </ShowComBtn>

@@ -116,6 +116,26 @@ const ShowComBtn = styled(PriceBtn)`
   border: 1px solid #000;
   box-shadow:2px 2px 3px #b3b3b3;
 `;
+
+// Comment Block styles
+
+const GridBox = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-row-gap: 7px;
+  grid-column: 1 / 3;
+`;
+
+const Block = styled.div`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 10px;
+  width: 450px;
+`;
+
+const TextBlock = styled.div`
+  grid-column: 1 / 4;
+`;
 export {
   BookCardWrapper,
   BookInfoWrapper,
@@ -133,4 +153,7 @@ export {
   IncDecBtn,
   CountText,
   ShowComBtn,
+  GridBox,
+  Block,
+  TextBlock
 };
