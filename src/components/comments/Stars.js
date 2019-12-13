@@ -35,7 +35,7 @@ const Stars = ({ rating }) => {
     setFour(false);
     setFive(false);
   }, [rating]);
-  // reset all the stars if will be choosing another one
+
   const handleOnEnter = (func) => {
     func(true);
     setPause(false);
