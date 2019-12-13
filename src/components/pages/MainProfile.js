@@ -11,6 +11,7 @@ import {
 import ProfileInfo from '../profile/profileElements/ProfileInfo';
 import authOk from '../../store/actions/authOk';
 import MyBooks from '../profile/profileElements/myBooks/MyBooks';
+import Favorites from '../favorites/Favorites';
 
 const MainProfile = () => {
   const dispatch = useDispatch();
@@ -59,11 +60,12 @@ const MainProfile = () => {
         <ProfContentWrapper>
           <LinksWrapper>
             <ProfLinks to="/profile/mybooks">Мои книги</ProfLinks>
-            <ProfLinks to="/profile/mybooks">Прочее</ProfLinks>
+            <ProfLinks to="/profile/favorites">Избранное</ProfLinks>
           </LinksWrapper>
           <ProfContent>
             <Switch>
               <Route path="/profile/mybooks" component={MyBooks} />
+              <Route path="/profile/favorites" component={Favorites} />
             </Switch>
           </ProfContent>
         </ProfContentWrapper>

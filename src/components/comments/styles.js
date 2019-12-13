@@ -109,6 +109,7 @@ const StarInp = styled.input`
 const RowGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(2, 1fr);
+  align-items:center;
 `;
 const StarsWrapper = styled.div`
   display:flex;

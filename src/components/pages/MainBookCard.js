@@ -4,12 +4,19 @@ import { BookCardWrapper, ShowComBtn } from '../bookCard/bookCardStyles';
 import BookInfo from '../bookCard/BookInfo';
 import PriceInfo from '../bookCard/PriceInfo';
 import Comments from '../comments/Comments';
+<<<<<<< HEAD
 import CommentBLock from '../bookCard/CommentBlock';
+=======
+import CommentBLock from '../commentBlock/CommentBlock';
+import { GridBox } from '../commentBlock/styles';
+>>>>>>> origin/favorites
 
 const MainBookCard = () => {
   const [info, setInfo] = useState(null);
   const { id } = useParams();
   const [showComment, setShowComment] = useState(false);
+  const [comment, setComment] = useState([]);
+
   useEffect(() => {
     const fetchData = async () => {
       const resp = await fetch(`/book/card/${id}`);
@@ -20,17 +27,41 @@ const MainBookCard = () => {
         setInfo(null);
       }
     };
-    fetchData();
-  }, [id]);
+    if (!showComment) {
+      fetchData();
+    }
+  }, [id, showComment]);
+
+  useEffect(() => {
+    const fetchingComments = async () => {
+      const resp = await fetch(`/book/comment/book/${id}`);
+      if (resp.ok) {
+        const result = await resp.json();
+        setComment(result);
+      }
+    };
+    if (!showComment) {
+      fetchingComments();
+    }
+  }, [id, showComment]);
+
   const handleCloseComment = () => {
     setShowComment(false);
   };
+<<<<<<< HEAD
 
   const handleShowCommentBlock = () => {
     if (info) {
       showComment(true)
     }
   }
+=======
+  const handleShowComments = () => {
+    if (info) {
+      setShowComment(true);
+    }
+  };
+>>>>>>> origin/favorites
   return (
     <>
       {showComment && (
@@ -48,12 +79,29 @@ const MainBookCard = () => {
               author={info.author}
               cover={info.cover}
               description={info.description}
+              rating={info.rating}
+              bookId={info.id}
             />
             <PriceInfo price={info.price} />
           </>
         )}
+<<<<<<< HEAD
         <CommentBLock />
         <ShowComBtn onClick={handleShowCommentBlock}>
+=======
+        {comment.length > 0 ? (
+          comment.map((item) => (
+            <CommentBLock
+              key={item.id}
+              author={item.author_name}
+              date={item.created_at}
+              rating={item.rating}
+              text={item.text}
+            />
+          ))
+        ) : <GridBox>Отзывов нет</GridBox>}
+        <ShowComBtn onClick={handleShowComments}>
+>>>>>>> origin/favorites
           Написать отзыв
         </ShowComBtn>
       </BookCardWrapper>

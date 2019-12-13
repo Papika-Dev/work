@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Icon } from 'react-icons-kit';
 import { basket } from 'react-icons-kit/ikons/basket';
-import { starO } from 'react-icons-kit/fa/starO';
+import { bookmark } from 'react-icons-kit/fa/bookmark';
 import {
   HeaderMidLogo,
   SearchInput,
   HeaderMidRight,
-  Favorites,
+  FavorIconBox,
   Cart,
   HeaderMidWrapper,
   SearchForm,
@@ -34,9 +34,9 @@ const HeaderMid = () => {
         />
       </SearchForm>
       <HeaderMidRight>
-        <Favorites>
-          <Icon icon={starO} size={22} />
-        </Favorites>
+        <FavorIconBox>
+          <Icon icon={bookmark} size={22} />
+        </FavorIconBox>
         <Cart to="/cart">
           {cart.length > 0 ? (
             <FullCart>

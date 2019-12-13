@@ -19,7 +19,6 @@ const Comments = ({ title, closeOnClick, bookId }) => {
   const [text, setText] = useState('');
   const [author, setAuthor] = useState('');
   const [message, setMessage] = useState(false);
-
   const [rating, setRating] = useState(null);
 
   const handleFetchData = async (e) => {

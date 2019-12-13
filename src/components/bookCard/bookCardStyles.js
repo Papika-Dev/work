@@ -1,10 +1,10 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 import { ProfileWrapper } from '../profile/profileStyles/styles';
 
 const BookCardWrapper = styled(ProfileWrapper)`
   grid-column-gap: 150px;
   grid-template-columns: 2fr 1fr;
-  grid-row-gap: 55px;
+  grid-row-gap: 15px;
 `;
 
 // BOOK INFO STYLES
@@ -12,7 +12,11 @@ const BookInfoWrapper = styled.div`
   display:flex;
   flex-direction: column;
 `;
-
+const TitleRowGrid = styled.div`
+  display:grid;
+  grid-template-columns: 2fr 1fr;
+  align-items: center;
+`;
 const BookTitle = styled.h1`
   font-size: 30px;
   font-weight: 500;
@@ -117,6 +121,7 @@ const ShowComBtn = styled(PriceBtn)`
   box-shadow:2px 2px 3px #b3b3b3;
 `;
 
+<<<<<<< HEAD
 // Comment Block styles
 
 const GridBox = styled.div`
@@ -136,10 +141,77 @@ const Block = styled.div`
 const TextBlock = styled.div`
   grid-column: 1 / 4;
 `;
+=======
+// BookRating styles
+
+const ROStarWrapper = styled.div`
+  display:flex;
+  justify-content:flex-end;
+`;
+const BookReadOnlyStars = styled.span`
+  font-size: 32px;
+  color: rgba(209, 209, 209, 0.6);
+`;
+
+const SvgStar = styled.svg.attrs((props) => ({
+  starFill: () => {
+    switch (props.rating) {
+    case 1:
+      return css`
+        &#one path {
+          fill: #f7be20;
+        }
+        `;
+    case 2:
+      return css`
+        &#one path, &#two path {
+          fill: #f7be20;
+        }
+          `;
+    case 3:
+      return css`
+        &#one path, &#two path, &#three path {
+          fill: #f7be20;
+        }
+        `;
+    case 4:
+      return css`
+         &#one path, &#two path, &#three path, &#four path {
+          fill: #f7be20;
+        }
+        `;
+    case 5:
+      return css`
+          & path {
+          fill: #f7be20;
+        }
+        `;
+    default:
+      return '';
+    }
+  },
+}))`
+& path {
+    fill: rgba(209, 209, 209, 0.6);
+  }
+
+${(props) => props.starFill}
+
+${(props) => props.isdec && css`
+& path {
+    fill: url(#grad);
+  }
+`}
+  
+
+`;
+
+>>>>>>> origin/favorites
 export {
   BookCardWrapper,
   BookInfoWrapper,
   PriceInfoWrapper,
+  TitleRowGrid,
   BookTitle,
   BookStyledText,
   BookMainText,
@@ -153,7 +225,13 @@ export {
   IncDecBtn,
   CountText,
   ShowComBtn,
+<<<<<<< HEAD
   GridBox,
   Block,
   TextBlock
+=======
+  ROStarWrapper,
+  BookReadOnlyStars,
+  SvgStar,
+>>>>>>> origin/favorites
 };

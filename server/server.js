@@ -89,19 +89,19 @@ const makeNewSession = (req, data, next, id) => {
       // Create user session
       db.none(`INSERT INTO sessions (user_id, ip, os, user_agent, refresh_token, expired_at, created_at, name)
       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
-      [id, req.ip, req.useragent.os, req.useragent.source,
-        refreshToken, expiredTime, new Date(createdTime), data.name])
+        [id, req.ip, req.useragent.os, req.useragent.source,
+          refreshToken, expiredTime, new Date(createdTime), data.name])
         .then(() => {
           jwt.sign({
             id,
             ip: req.ip,
             os: req.useragent.os,
           },
-          secretKey,
-          { algorithm: 'HS256', expiresIn: '1h' }, (err, token) => {
-            req.userInfo = { token, name: data.name, refreshToken };
-            next();
-          });
+            secretKey,
+            { algorithm: 'HS256', expiresIn: '1h' }, (err, token) => {
+              req.userInfo = { token, name: data.name, refreshToken };
+              next();
+            });
         });
     });
 };
@@ -219,7 +219,7 @@ const setBooksInfo = (req, res, next) => {
   // path for local server
   db.none(`INSERT INTO books (user_id, title, author, description, cover, price, category)
    VALUES ($1, $2, $3, $4, $5, $6, $7)`,
-  [req.id, req.body.title, req.body.author,
+    [req.id, req.body.title, req.body.author,
     req.body.description, req.body.url, req.body.price, req.body.category])
     .then(() => {
       next();
@@ -253,7 +253,7 @@ app.get('/api/user/:id/booklist', (req, res) => {
     });
 });
 
-// GET BOOK INFO fro Book card
+// GET BOOK INFO from Book card
 
 app.get('/book/card/:id', (req, res) => {
   db.one('SELECT * FROM books WHERE id = $1', [req.params.id])
@@ -263,23 +263,100 @@ app.get('/book/card/:id', (req, res) => {
     .catch(() => res.sendStatus(403));
 });
 
+// SET FAVORITES
 
-// ADD Comment to DB
+app.use('/profile/user/:id/favorites', (req, res) => {
+  const userId = req.params.id;
+  db.any(`SELECT * FROM favorites 
+          INNER JOIN books ON favorites.book_id = books.id
+          WHERE favorites.user_id = $1;`, [userId])
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 
+<<<<<<< HEAD
 app.use('/book/comment', jsonParser, (req, res) => {
   db.none('INSERT INTO comments (book_id, text, author_name, rating) VALUES ($1, $2, $3, $4);',
     [req.body.bookId, req.body.text, req.body.author, req.body.rating])
+=======
+const checkInDb = (req, res, next) => {
+  db.none('SELECT * FROM favorites WHERE book_id = $1 AND user_id = $2;', [req.params.bookId, req.params.userId])
+    .then(() => {
+      next();
+    })
+    .catch(() => {
+      res.sendStatus(500);
+    });
+};
+app.use('/favorites/user:userId/book:bookId', checkInDb, (req, res) => {
+  db.none('INSERT INTO favorites (book_id, user_id) VALUES ($1, $2);', [req.params.bookId, req.params.userId])
+>>>>>>> origin/favorites
     .then(() => {
       res.sendStatus(200);
     })
+    .catch(() => res.sendStatus(500));
+});
+
+
+// GET Comments from DB
+
+app.get('/book/comment/book/:id', (req, res) => {
+  db.any('SELECT * FROM comments WHERE book_id = $1 ORDER BY created_at DESC', [req.params.id])
+    .then((data) => {
+      res.status(200).json(data);
+    })
+    .catch(() => res.sendStatus(500));
+});
+
+
+// ADD Comment to DB
+
+app.use('/book/comment', jsonParser, (req, res, next) => {
+  req.bookId = req.body.bookId;
+  db.none('INSERT INTO comments (book_id, text, author_name, rating) VALUES ($1, $2, $3, $4);',
+    [req.body.bookId, req.body.text, req.body.author, req.body.rating])
+    .then(() => {
+      next();
+    })
     .catch((err) => {
       res.sendStatus(500);
-      console.log(err)
+      // eslint-disable-next-line no-console
+      console.log(err);
     });
-  console.log(req.body)
+});
+
+// Calculate and set book rating
+const calcBookRating = (arr) => {
+  const ratingSum = arr.reduce((sum, cur) => sum + cur.rating, 0);
+  return ratingSum / arr.length;
+};
+
+app.use((req, res, next) => {
+  db.any('SELECT rating FROM comments WHERE book_id = $1 AND rating <> $2', [req.bookId, 0])
+    .then((data) => {
+      const bookRating = Math.floor(calcBookRating(data) * 10) / 10;
+      req.rating = bookRating;
+      next();
+    })
+    .catch((err) => {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    });
+});
+
+app.use((req, res) => {
+  db.none('UPDATE books SET rating = $1 WHERE id = $2', [req.rating, req.bookId])
+    .then(() => res.sendStatus(200))
+    .catch(() => res.sendStatus(500));
 });
 
 
-app.use('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../public/index.html'));
-});
+
+
+// app.use('*', (req, res) => {
+//   res.sendFile(path.join(__dirname, '../public/index.html'));
+// });

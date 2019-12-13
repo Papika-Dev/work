@@ -135,7 +135,7 @@ const FullCart = styled.span`
 
 `;
 
-const Favorites = styled.span`
+const FavorIconBox = styled.span`
  color:#000;
  margin-right:15px;
 `;
@@ -154,7 +154,7 @@ export {
   SearchInput,
   HeaderMidRight,
   Cart,
-  Favorites,
+  FavorIconBox,
   SearchForm,
   FullCart,
 };

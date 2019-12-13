@@ -7,21 +7,32 @@ import {
   BookMainText,
   BookBigCoverBox,
   CoverImg,
+  TitleRowGrid,
 } from './bookCardStyles';
+import BookRating from './BookRating';
+import AddToFavorBtn from '../favorites/AddToFavorBtn';
 
 const BookInfo = ({
   title,
   author,
   cover,
   description,
+  rating,
+  bookId,
 }) => (
   <BookInfoWrapper>
-    <BookTitle>
-      {title}
-    </BookTitle>
-    <BookStyledText>
-      {author}
-    </BookStyledText>
+    <TitleRowGrid>
+      <BookTitle>
+        {title}
+      </BookTitle>
+      <AddToFavorBtn bookId={bookId} />
+    </TitleRowGrid>
+    <TitleRowGrid>
+      <BookStyledText>
+        {author}
+      </BookStyledText>
+      <BookRating rating={rating} />
+    </TitleRowGrid>
     <BookBigCoverBox>
       <CoverImg src={cover} />
     </BookBigCoverBox>
@@ -30,12 +41,16 @@ const BookInfo = ({
     </BookMainText>
   </BookInfoWrapper>
 );
-
+BookInfo.defaultProps = {
+  rating: null,
+};
 BookInfo.propTypes = {
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
   cover: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  bookId: PropTypes.number.isRequired,
+  rating: PropTypes.number,
 };
 
 export default BookInfo;
