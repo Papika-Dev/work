@@ -21,13 +21,17 @@ const ProductList = () => {
 
   useEffect(() => {
     const fetchProductList = async () => {
-      const resp = await fetch(
-        `/products/all?q=${search}&pagenum=${pageNum}&limit=${maxOnPage}&sort=${sort}&inc_dec=${incDec}`,
-      );
+      const resp = await fetch(`/products/all?q=${search}&pagenum=${pageNum}&limit=${maxOnPage}&sort=${sort}&inc_dec=${incDec}`);
       if (resp.ok) {
         const result = await resp.json();
         setProducts(result.product);
-        dispatch(setInfoOfProd(result.product.length, result.count, result.headers));
+        if (result.product) {
+          // if result has matches
+          dispatch(setInfoOfProd(result.product.length, result.count, result.headers));
+        } else {
+          //if result is empty
+          dispatch(setInfoOfProd(0, 0, result.headers));
+        }
       } else {
         setMessage(true);
       }
@@ -39,7 +43,7 @@ const ProductList = () => {
       <ProductListTop />
       <ProdGridBox>
         {message && <h1>Сбой сервера ... перезагрузите страницу</h1>}
-        {products.length > 0 && products.map((item) => (
+        {products && products.map((item) => (
           <Link
             to={`/book/${item.id}`}
             key={item.id}
