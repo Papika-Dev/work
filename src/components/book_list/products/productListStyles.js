@@ -53,6 +53,14 @@ const Select = styled.select`
   border: none;
   outline: none;
 `;
+
+const AlarmText = styled.span`
+  grid-column: 1 / 5;
+  font-size: 16px;
+  text-align:center;
+  color: red;
+`;
+
 export {
   BooksWrapper,
   TopWrapper,
@@ -61,4 +69,5 @@ export {
   ControlsMainText,
   NumText,
   Select,
+  AlarmText,
 };

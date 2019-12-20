@@ -11,8 +11,9 @@ export default (state = {
       ...state,
       length: action.payload.length,
       maxCount: action.payload.maxCount,
-      headers: action.payload.headers,
     };
+  case 'SET_All_TITLES':
+    return { ...state, headers: action.payload };
   case 'SET_NUM_OF_PAGE':
     return {
       ...state,

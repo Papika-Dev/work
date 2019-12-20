@@ -1,8 +1,7 @@
-export default (length, maxCount, headers) => ({
+export default (length, maxCount) => ({
   type: 'SET_INFO',
   payload: {
     length,
     maxCount,
-    headers,
   },
 });
