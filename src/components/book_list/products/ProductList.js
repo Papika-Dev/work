@@ -17,11 +17,14 @@ const ProductList = () => {
     sort,
     incDec,
     search,
+    priceFilter,
+    category,
   } = useSelector((state) => state.products);
 
   useEffect(() => {
     const fetchProductList = async () => {
-      const resp = await fetch(`/products/all?q=${search}&pagenum=${pageNum}&limit=${maxOnPage}&sort=${sort}&inc_dec=${incDec}`);
+      const url = `/products/all?q=${search}&pagenum=${pageNum}&limit=${maxOnPage}&sort=${sort}&inc_dec=${incDec}&cost=${priceFilter}&category=${category}`;
+      const resp = await fetch(url);
       if (resp.ok) {
         const result = await resp.json();
         setProducts(result.product);
@@ -37,7 +40,7 @@ const ProductList = () => {
       }
     };
     fetchProductList();
-  }, [dispatch, maxOnPage, pageNum, sort, incDec, search]);
+  }, [dispatch, maxOnPage, pageNum, sort, incDec, search, priceFilter, category]);
 
   const prodList = (products ? (products.map((item) => (
     <Link

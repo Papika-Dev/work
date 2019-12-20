@@ -4,6 +4,11 @@ export default (state = {
   sort: 'created_at',
   incDec: 'ASC',
   search: '',
+  category: '',
+  priceFilter: {
+    min: null,
+    max: null,
+  }
 }, action) => {
   switch (action.type) {
   case 'SET_INFO':
@@ -25,6 +30,16 @@ export default (state = {
     return { ...state, incDec: action.payload };
   case 'SET_SORT_TYPE':
     return { ...state, sort: action.payload };
+  case 'SET_CATEGORY':
+    return { ...state, category: action.payload};
+  case 'SET_PRICE_FILTER':
+    return {
+      ...state,
+      priceFilter: {
+        min: action.payload.min,
+        max: action.payload.max,
+      },
+    };
   default:
     return state;
   }
