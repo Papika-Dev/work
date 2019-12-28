@@ -55,19 +55,32 @@ const CoverImg = styled.img`
 const PriceInfoWrapper = styled.div`
   display:flex;
   flex-direction:column;
+  ${(props) => props.small && css`
+    flex-direction: row;
+    position:relative;
+    align-items:center;
+  `}
 `;
 
 const PriceTitle = styled.span`
-  font-size: 24px;
+  font-size: ${(props) => (props.small ? '16px' : '24px')};
   font-weight: 500;
-  line-height: 1.17;
+  line-height: ${(props) => (props.small ? '30px' : '1.17')};
   color: #1acee2;
+  ${(props) => props.isHover && css`
+    color: #fff;
+    background-color:#1acee2;
+    padding: 0 3px;
+  `}
 `;
 
 const PriceMainText = styled.span`
   font-size: 12px;
   font-weight: 500;
   color: #a0a4a5;
+  ${(props) => props.small && css`
+    display: none;
+  `};
 
 `;
 const PriceBtn = styled.button`
@@ -83,13 +96,24 @@ const PriceBtn = styled.button`
   font-weight: bold;
   border:none;
   cursor:pointer;
+  ${(props) => props.small && css`
+    width: 30px;
+    height: 30px;
+    display: ${props.isHover ? 'flex' : 'none'};
+  `};
 `;
 
 const CountBox = styled.div`
   display: flex;
   align-items: center;
   margin: 20px 0 35px;
-  
+  ${(props) => props.small && css`
+    position: absolute;
+    right:5px;
+    top:5px;
+    margin:0;
+    display: ${props.isHover ? 'flex' : 'none'};
+  `}
 `;
 
 const CountBtnWrapper = styled.div`

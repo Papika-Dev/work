@@ -32,7 +32,8 @@ const HeaderTopInner = styled.div`
   width: 100%;
   max-width: 1560px;
 `;
-const HeaderLogo = styled.div`
+const HeaderLogo = styled(Link)`
+  text-decoration: none;
   display:flex;
   flex:1 1;
   align-items:center;
@@ -95,6 +96,7 @@ const HeaderMidLogo = styled.div`
 const SearchForm = styled.form`
   display:flex;
   justify-content:center;
+  position:relative;
 `;
 const SearchInput = styled.input.attrs((props) => ({
   widthOnFocus: props.isFocus ? 100 : 40,
@@ -138,6 +140,28 @@ const FullCart = styled.span`
 const FavorIconBox = styled.span`
  color:#000;
  margin-right:15px;
+ cursor: pointer;
+`;
+
+const PopUpDiv = styled.div`
+  position:absolute;
+  display:grid;
+  width:${(props) => (props.isFocus ? '100%' : '40%')};
+  top: 50px;
+  transition: all 0.3s ease-in-out;
+  grid-template-columns: 1fr;
+  grid-auto-rows: 25px;
+  background-color:#fff;
+  opacity: 0.6;
+`;
+
+const PopUpRow = styled.span`
+  color:#42CEE2;
+  cursor: pointer;
+  max-width:max-content;
+  &:hover{
+    color: #61e7fa;
+  }
 `;
 export {
   // HeaderTop
@@ -157,4 +181,6 @@ export {
   FavorIconBox,
   SearchForm,
   FullCart,
+  PopUpDiv,
+  PopUpRow,
 };

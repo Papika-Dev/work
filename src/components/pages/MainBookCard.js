@@ -69,7 +69,7 @@ const MainBookCard = () => {
               rating={info.rating}
               bookId={info.id}
             />
-            <PriceInfo price={info.price} />
+            <PriceInfo price={info.price} bookId={+id} />
           </>
         )}
         {comment.length > 0 ? (

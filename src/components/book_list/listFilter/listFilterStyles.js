@@ -1,9 +1,10 @@
 import styled from 'styled-components';
+import { CloseBtn } from '../../popUp/styles/styles';
 
 const FilterWrapper = styled.div`
   width:100%;
   display:grid;
-  grid-template-rows: 22px auto;
+  grid-template-rows: 22px auto 1fr;
   grid-template-columns: 1fr;
   & h1{
     font-family: Roboto;
@@ -47,6 +48,7 @@ const Label = styled.label`
 const CustomFilterForm = styled.form`
   display:flex;
   flex-direction:column;
+  position:relative;
 `;
 const PriceFilter = styled.div`
   display:flex;
@@ -104,16 +106,21 @@ const InputCheckBox = styled.div`
 
   &::before{
     content:"";
-    display:block;
+    display:${(props) => (props.isSale ? 'block' : 'none')};
     position:absolute;
-    left:1.5px;
-    top:1.5px;
+    left:50%;
+    top:50%;
     width:10px;
     height:10px;
     background-color:#42CEE2;
+    transform: translate(-50%, -50%);
   }
 `;
-
+const ResetBtn = styled(CloseBtn)`
+  position:absolute;
+  top: 71px;
+  right: -20px;
+`;
 export {
   FilterWrapper,
   FilterForm,
@@ -126,4 +133,5 @@ export {
   PriceInput,
   CheckBoxLabel,
   InputCheckBox,
+  ResetBtn,
 };

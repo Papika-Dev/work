@@ -79,7 +79,7 @@ const CartRow = ({ id, count }) => {
 };
 
 CartRow.propTypes = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   count: PropTypes.number.isRequired,
 };
 

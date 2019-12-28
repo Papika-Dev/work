@@ -35,6 +35,7 @@ const PopUp = () => {
               style={{ display: 'none' }}
               onChange={() => dispatch(modeLog())}
               value="log"
+              checked={mode}
             />
             Войти
           </LinksLabel>
@@ -45,6 +46,7 @@ const PopUp = () => {
               name="links"
               style={{ display: 'none' }}
               value="reg"
+              checked={!mode}
               onChange={() => dispatch(modeReg())}
             />
             Регистрация

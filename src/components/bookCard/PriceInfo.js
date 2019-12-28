@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import { Icon } from 'react-icons-kit';
+import { basket } from 'react-icons-kit/ikons/basket';
 import PropTypes from 'prop-types';
 import {
   PriceInfoWrapper,
@@ -14,10 +16,14 @@ import addToCart from '../../store/actions/addToCart';
 import decrement from '../../store/actions/decrement';
 import increment from '../../store/actions/increment';
 
-const PriceInfo = ({ price }) => {
+const PriceInfo = ({
+  price,
+  bookId,
+  small,
+  isHover,
+}) => {
   const [count, setCount] = useState(1);
-  const { id: bookId } = useParams();
-  const { id: userId } = useSelector((state) => state.authUser);
+  const { id: userId } = useSelector((state) => state.currentUser);
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const [match, setMatch] = useState(false);
@@ -67,12 +73,12 @@ const PriceInfo = ({ price }) => {
   const decOnClick = match ? () => { dispatch(decrement(bookId)); } : handleDecOnClick;
   const incOnClick = match ? () => { dispatch(increment(bookId)); } : handleIncOnClick;
   return (
-    <PriceInfoWrapper>
-      <PriceTitle>
+    <PriceInfoWrapper small={small}>
+      <PriceTitle small={small} isHover={isHover}>
         {price}
       </PriceTitle>
-      <CountBox>
-        <PriceMainText>
+      <CountBox small={small} isHover={isHover}>
+        <PriceMainText small={small}>
           Количество
         </PriceMainText>
         <CountBtn
@@ -82,22 +88,38 @@ const PriceInfo = ({ price }) => {
         />
       </CountBox>
       {match ? (
-        <Link to="/cart" style={{ textDecoration: 'none' }}>
-          <PriceBtn>
-            Перейти в корзину
+        <Link
+          to="/cart"
+          style={{ textDecoration: 'none' }}
+        >
+          <PriceBtn
+            small={small}
+            isHover={isHover}
+          >
+            {!small ? 'Перейти в корзину' : <Icon icon={basket} size={22} />}
           </PriceBtn>
         </Link>
       ) : (
-        <PriceBtn onClick={handleAddToCardOnClick}>
-            Добавить в корзину
+        <PriceBtn
+          onClick={handleAddToCardOnClick}
+          small={small}
+          isHover={isHover}
+        >
+          {!small ? 'Добавить в корзину' : '+'}
         </PriceBtn>
       )}
     </PriceInfoWrapper>
   );
 };
-
+PriceInfo.defaultProps = {
+  small: false,
+  isHover: false,
+};
 PriceInfo.propTypes = {
-  price: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  bookId: PropTypes.number.isRequired,
+  small: PropTypes.bool,
+  isHover: PropTypes.bool,
 };
 
 export default PriceInfo;

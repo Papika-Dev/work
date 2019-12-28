@@ -1,21 +1,33 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Switch, Route } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import {
+  Switch,
+  Route,
+  useRouteMatch,
+} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   ProfileWrapper,
   ProfLinks,
   ProfContentWrapper,
   LinksWrapper,
   ProfContent,
+  ProfTitle,
 } from '../profile/profileStyles/styles';
 import ProfileInfo from '../profile/profileElements/ProfileInfo';
-import authOk from '../../store/actions/authOk';
 import MyBooks from '../profile/profileElements/myBooks/MyBooks';
-import Favorites from '../favorites/Favorites';
+import Favorites from '../profile/profileElements/favorites/Favorites';
+import setUrl from '../../store/actions/setUrl';
+import toLocalStorage from '../../store/actions/toLocalStorage';
+import ProfileBoard from '../profile/mainBoard/ProfileBoard';
+import logOut from '../../store/actions/logOut';
+import Page404 from './Page404';
 
 const MainProfile = () => {
+  const [isAuth, setIsAuth] = useState(false);
   const dispatch = useDispatch();
-  const authUser = useSelector((state) => state.authUser);
+  const isBooks = useRouteMatch('/profile/mybooks');
+  const isFavor = useRouteMatch('/profile/favorites');
+  const match = useRouteMatch();
 
   useEffect(() => {
     const verifyUser = async () => {
@@ -23,58 +35,62 @@ const MainProfile = () => {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+          Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))} ${JSON.parse(localStorage.getItem('refreshToken'))}`,
         },
       });
-      if (resp.status === 403) {
-        const refreshResp = await fetch('/refresh', {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${JSON.parse(localStorage.getItem('refreshToken'))}`,
-          },
-        });
-        if (refreshResp.ok) {
-          const refreshResult = await refreshResp.json();
-          localStorage.setItem('token', JSON.stringify(refreshResult.token));
-          localStorage.setItem('refreshToken', JSON.stringify(refreshResult.refreshToken));
-          // Repeat request after refresh token
-          verifyUser();
-        } else {
-          dispatch({ type: 'AUTH_DENIED' });
-          return false;
-        }
-      } else {
+      if (resp.ok) {
         const result = await resp.json();
-        dispatch(authOk(result));
+        if (result.token) {
+          dispatch(toLocalStorage(result.token, result.refreshToken));
+        }
+        dispatch(setUrl(result.avatar));
+        setIsAuth(true);
+      } else {
+        dispatch(logOut());
+        dispatch({ type: 'CLEAR_CART' });
       }
-      return true;
     };
     verifyUser();
   }, [dispatch]);
 
   return (
-    authUser.ok ? (
-      <ProfileWrapper>
-        <ProfileInfo />
-        <ProfContentWrapper>
-          <LinksWrapper>
-            <ProfLinks to="/profile/mybooks">Мои книги</ProfLinks>
-            <ProfLinks to="/profile/favorites">Избранное</ProfLinks>
-          </LinksWrapper>
-          <ProfContent>
-            <Switch>
-              <Route path="/profile/mybooks" component={MyBooks} />
-              <Route path="/profile/favorites" component={Favorites} />
-            </Switch>
-          </ProfContent>
-        </ProfContentWrapper>
-      </ProfileWrapper>
-    ) : (
-      <h1 style={{ textAlign: 'center' }}>
-          Loading...
-      </h1>
-    )
+    <>
+      {isAuth ? (
+        <ProfileWrapper>
+          <ProfileInfo />
+          <ProfContentWrapper>
+            <LinksWrapper>
+              <ProfLinks
+                to="/profile/mybooks"
+                isactive={isBooks}
+              >
+                Мои книги
+              </ProfLinks>
+              <ProfLinks
+                to="/profile/favorites"
+                isactive={isFavor}
+              >
+                Избранное
+              </ProfLinks>
+              {(!isBooks && !isFavor) && <ProfTitle> Новинки</ProfTitle>}
+              {isBooks && <ProfTitle> Мои книги</ProfTitle>}
+            </LinksWrapper>
+            <ProfContent>
+              <Switch>
+                <Route path="/profile/mybooks" exact component={MyBooks} />
+                <Route path="/profile/favorites" exact component={Favorites} />
+                <Route path={match.path} exact component={ProfileBoard} />
+                <Route path="*" component={Page404} />
+              </Switch>
+            </ProfContent>
+          </ProfContentWrapper>
+        </ProfileWrapper>
+      ) : (
+        <h1 style={{ textAlign: 'center' }}>
+            Loading...
+        </h1>
+      )}
+    </>
   );
 };
 

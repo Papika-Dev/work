@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 const BooksWrapper = styled.div`
   width: 100%;
@@ -32,6 +32,7 @@ const ControlsMainText = styled.div`
   margin: 0 8px;
 `;
 const NumText = styled.span`
+  cursor:pointer;
   font-weight: 300;
   width: 21px;
   line-height: 20px;
@@ -40,8 +41,26 @@ const NumText = styled.span`
   margin: auto;
   color: #181616;
   font-size: 13px;
+  border: 1px solid transparent;
   text-decoration: none;
+  ${(props) => props.isActive && css`
+    border-bottom-color: #42CEE2;
+    font-weight: 600;
+  `}
 `;
+
+const Select = styled.select`
+  border: none;
+  outline: none;
+`;
+
+const AlarmText = styled.span`
+  grid-column: 1 / 5;
+  font-size: 16px;
+  text-align:center;
+  color: red;
+`;
+
 export {
   BooksWrapper,
   TopWrapper,
@@ -49,4 +68,6 @@ export {
   ListControlsTitle,
   ControlsMainText,
   NumText,
+  Select,
+  AlarmText,
 };

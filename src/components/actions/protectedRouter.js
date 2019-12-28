@@ -12,7 +12,7 @@ const ProtectedRouter = ({ children, isAuth, path }) => (
         <Redirect
           to={{
             pathname: '/',
-            state: { from: location },
+            state: { from: location.pathname },
           }}
         />
       ))}

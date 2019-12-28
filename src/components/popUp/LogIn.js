@@ -10,6 +10,7 @@ import {
 } from './styles/styles';
 import logIn from '../../store/actions/logIn';
 import togglePopUp from '../../store/actions/togglePopUp';
+import toLocalStorage from '../../store/actions/toLocalStorage';
 
 const LogIn = () => {
   const [mail, setMail] = useState('');
@@ -37,11 +38,8 @@ const LogIn = () => {
       if (res.ok) {
         const result = await res.json();
         // set Token and userName into local storage
-        dispatch(logIn(result.name));
-
-        localStorage.setItem('token', JSON.stringify(result.token));
-        localStorage.setItem('refreshToken', JSON.stringify(result.refreshToken));
-
+        dispatch(logIn(result.name, result.id));
+        dispatch(toLocalStorage(result.token, result.refreshToken));
         // if result ok hide Pop-Up window with REG- LOG mode
         dispatch(togglePopUp());
       } else {

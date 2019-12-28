@@ -17,14 +17,14 @@ const HeaderTop = () => {
   return (
     <HeaderTopWrapper>
       <HeaderTopInner>
-        <HeaderLogo>
+        <HeaderLogo to="/">
           MyBookcase
         </HeaderLogo>
         <HeaderRight>
           <HeaderTopLinks to="/">
             Доставка и оплата
           </HeaderTopLinks>
-          <HeaderTopText>
+          <HeaderTopText as="a" href="tel:88964327447" style={{ textDecoration: 'none' }}>
             +7(863) 432-74-47
           </HeaderTopText>
           <HeaderTopLinks to="/">

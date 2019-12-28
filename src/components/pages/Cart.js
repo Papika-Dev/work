@@ -5,16 +5,20 @@ import {
   CartWrapper,
   CartTitle,
   CartSubTitle,
+  CartButton,
 } from '../cart/cartStyles';
 import CartRow from '../cart/CartRow';
 import CartResult from '../cart/CartResult';
 import formatPrice from '../actions/formatPrice';
+import CartTitleRow from '../cart/CartTitleRow';
+import Thanks from '../cart/Thanks';
+
 
 const Cart = () => {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
   const [totalPrice, setTotalPrice] = useState(0);
-
+  const [showThanks, setShowThanks] = useState(false);
   useEffect(() => {
     // Calculate total price
     const reduceMath = (res, cur) => res + (formatPrice(cur.price) * cur.count);
@@ -26,27 +30,38 @@ const Cart = () => {
       <BackgroundWrapper>
         <CartWrapper>
           <CartTitle>
-            Корзина
+            {` Корзина ${cart.length > 0 ? '' : 'пуста'} `}
           </CartTitle>
-          <CartSubTitle>
-            {`${cart.length} ед. товара`}
-          </CartSubTitle>
-          <CartSubTitle
-            onClick={() => dispatch({ type: 'CLEAR_CART' })}
-            btn
-          >
-            Очистить корзину
-          </CartSubTitle>
-          {cart.map((item) => (
-            <CartRow
-              key={item.bookId}
-              id={item.bookId}
-              count={item.count}
-            />
-          ))}
+          {cart.length > 0 ? (
+            <>
+              <CartSubTitle>
+                {`${cart.reduce((res, cur) => res + cur.count, 0)} ед. товара`}
+              </CartSubTitle>
+              <CartSubTitle
+                onClick={() => dispatch({ type: 'CLEAR_CART' })}
+                btn
+              >
+                Очистить корзину
+              </CartSubTitle>
+              <CartTitleRow />
+              {cart.map((item) => (
+                <CartRow
+                  key={item.bookId}
+                  id={item.bookId}
+                  count={item.count}
+                />
+              ))}
+            </>
+          ) : (
+            <CartButton to="/">
+                Перейти к покупкам
+            </CartButton>
+          )}
+
         </CartWrapper>
       </BackgroundWrapper>
-      <CartResult total={totalPrice} />
+      {cart.length > 0 && <CartResult total={totalPrice} onClick={() => setShowThanks(true)} />}
+      {showThanks && <Thanks />}
     </>
   );
 };

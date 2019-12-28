@@ -2,7 +2,7 @@ import styled, { css } from 'styled-components';
 import { FormBtn, Input, CloseBtn } from '../popUp/styles/styles';
 
 const CommentWrapper = styled.div`
-  margin: 170px auto;
+  margin: 100px auto;
   display: grid;
   width: 500px;
   grid-template-columns: 1fr;

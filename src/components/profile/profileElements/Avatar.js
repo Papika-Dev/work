@@ -7,10 +7,11 @@ import {
   InputLabel,
 } from '../profileStyles/styles';
 import setUrl from '../../../store/actions/setUrl';
+import toLocalStorage from '../../../store/actions/toLocalStorage';
 
 
 const Avatar = ({ name }) => {
-  const url = useSelector((state) => state.authUser.avatar);
+  const url = useSelector((state) => state.currentUser.url);
   const dispatch = useDispatch();
 
   const handleSendData = async (e) => {
@@ -20,12 +21,14 @@ const Avatar = ({ name }) => {
     const resp = await fetch('/profile/avatar', {
       method: 'POST',
       headers: {
-        Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))}`,
+        Authorization: `Bearer ${JSON.parse(localStorage.getItem('token'))} ${JSON.parse(localStorage.getItem('refreshToken'))}`,
       },
       body: data,
     });
     const result = await resp.json();
-
+    if (result.token) {
+      dispatch(toLocalStorage(result.token, result.refreshToken));
+    }
     dispatch(setUrl(result.url));
   };
 

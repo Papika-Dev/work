@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Form,
@@ -20,11 +20,6 @@ const Registration = () => {
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setMessage('');
-  }, [password, setMessage]);
-
-
   const handleRegOnSubmit = async (e) => {
     e.preventDefault();
     if (password === checkPass) {
@@ -42,11 +37,14 @@ const Registration = () => {
         },
         body: JSON.stringify(user),
       });
-      const result = await resp.json();
-      if (result.message) {
-        dispatch(modeLog());
-      } else {
+      if (resp.status === 403) {
+        setMessage('Пользователь с данной почтой уже зарегестрирован');
+      }
+      if (resp.status === 500) {
         setMessage('Сбой, повторите попытку');
+      }
+      if (resp.ok) {
+        dispatch(modeLog());
       }
     } else {
       setMessage('Пароль не соответствует');
@@ -59,8 +57,8 @@ const Registration = () => {
       <FormTitle>
         Зарегистрировать аккаунт на сайте:
       </FormTitle>
-      {message && <FormTitle>{message}</FormTitle>}
-      <Form onSubmit={handleRegOnSubmit}>
+      {message && <FormTitle style={{ color: 'red' }}>{message}</FormTitle>}
+      <Form onSubmit={handleRegOnSubmit} onChange={() => setMessage('')}>
         <Div>
           <Label>
             <Input

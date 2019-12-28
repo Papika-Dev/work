@@ -10,7 +10,7 @@ import {
   TitleRowGrid,
 } from './bookCardStyles';
 import BookRating from './BookRating';
-import AddToFavorBtn from '../favorites/AddToFavorBtn';
+import AddToFavorBtn from '../profile/profileElements/favorites/AddToFavorBtn';
 
 const BookInfo = ({
   title,

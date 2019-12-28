@@ -68,6 +68,7 @@ const CartRowTitle = styled(Link)`
   font-size: 15px;
   line-height: 20px;
   font-weight: 500;
+  width: max-content;
 `;
 const CartMainText = styled.span`
   font-size: 12px;
@@ -106,6 +107,32 @@ const WhiteBGWrapper = styled.section`
 const ResultWrapper = styled(CartWrapper)`
   align-items: flex-end;
 `;
+
+// Cart Title Row styles
+
+const TitleRow = styled(Row)`
+    height: auto;
+    box-shadow:none;
+    background:none;
+    margin: 0;
+`;
+
+const CartButton = styled(Link)`
+  text-decoration: none;
+  width: 200px;
+  align-self: center;
+  font-size: 14px;
+  line-height: 56px;
+  display: inline-block;
+  background-color: #181616;
+  color: #FFFFFF;
+  text-align: center;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  margin: 25px 0;
+`;
 export {
   BackgroundWrapper,
   CartWrapper,
@@ -121,4 +148,6 @@ export {
   RowInfo,
   WhiteBGWrapper,
   ResultWrapper,
+  TitleRow,
+  CartButton,
 };
