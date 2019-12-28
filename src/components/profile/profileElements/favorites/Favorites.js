@@ -13,6 +13,7 @@ const Favorites = () => {
       const resp = await fetch(`/profile/user/${id}/favorites`);
       if (resp.ok) {
         const result = await resp.json();
+        console.log(result)
         setFavorites(result);
       }
     };
@@ -30,8 +31,8 @@ const Favorites = () => {
             {favor.map((item) => (
               <ElemOfFavorites
                 key={item.id}
-                url={item.cover}
-                title={item.title}
+                url={item.Book.cover}
+                title={item.Book.title}
                 id={id}
                 bookId={+item.book_id}
                 reloadOnRemove={handleReloadOnRemove}

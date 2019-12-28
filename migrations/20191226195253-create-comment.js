@@ -12,6 +12,7 @@ module.exports = {
       },
       isRead: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       authorName: {
         type: Sequelize.STRING,

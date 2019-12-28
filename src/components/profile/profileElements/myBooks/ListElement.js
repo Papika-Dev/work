@@ -39,7 +39,7 @@ ListElement.propTypes = {
   cover: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired,
-  price: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
   id: PropTypes.number.isRequired,
 };
 export default ListElement;

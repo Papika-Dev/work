@@ -76,8 +76,8 @@ const MainBookCard = () => {
           comment.map((item) => (
             <CommentBLock
               key={item.id}
-              author={item.author_name}
-              date={item.created_at}
+              author={item.authorName}
+              date={item.createdAt}
               rating={item.rating}
               text={item.text}
             />

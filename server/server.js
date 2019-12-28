@@ -71,9 +71,10 @@ bookInfo(app);
 favorites(app);
 // GEtting new Products
 newProd(app);
+// app.get('/profile/mybooks', (req, res) => {
+//   res.sendStatus(200)
+// })
 // Comments
 comments(app);
-// Book rating !!! must be Last module
-bookRating(app);
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.get('*', express.static(path.join(__dirname, 'public')));

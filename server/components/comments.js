@@ -1,6 +1,7 @@
 import bodyParser from 'body-parser';
 import db from '../../models';
 
+
 const { Comment, Book, User } = db;
 const jsonParser = bodyParser.json();
 
@@ -9,7 +10,7 @@ export default (app) => {
     try {
       const data = await Comment.findAll({
         where: {
-          id: req.params.id,
+          BookId: req.params.id,
         },
         raw: true,
       }, {
@@ -28,14 +29,14 @@ export default (app) => {
 
   app.use('/book/comment', jsonParser, async (req, res, next) => {
     const comment = {
-      bookId: req.body.bookId,
+      BookId: req.body.bookId,
       text: req.body.text,
       authorName: req.body.author,
       rating: req.body.rating,
     };
     try {
       await Comment.create(comment);
-      next();
+      res.sendStatus(200);
     } catch (e) {
       res.sendStatus(500);
       // eslint-disable-next-line no-console
@@ -76,7 +77,7 @@ export default (app) => {
       }, {
         attributes: ['id', 'title', db.sequelize.fn('COUNT', db.sequelize.col('*')), 'count'],
       });
-      if (data.dataValue) {
+      if (data.dataValues) {
         res.status(200).json(data);
       }
     } catch (e) {

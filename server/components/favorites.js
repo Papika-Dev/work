@@ -28,10 +28,12 @@ export default (app) => {
           BookId: bookId,
         },
       });
-      if (isFavorite.dataValue) {
+
+      if (isFavorite) {
         res.status(200).json({ isFavor: true });
       }
     } catch (e) {
+      console.log(e)
       res.json({ isFavor: false });
     }
   });
@@ -40,13 +42,14 @@ export default (app) => {
     try {
       const match = await Favorite.findAll({
         where: {
-          BookId: req.params,
+          BookId: req.params.bookId,
         },
       });
-      if (!match.dataValue) {
+      if (match.length === 0) {
         next();
       }
     } catch (e) {
+      console.log(e)
       res.sendStatus(500);
     }
   };
@@ -59,6 +62,7 @@ export default (app) => {
       });
       res.sendStatus(200);
     } catch (e) {
+      console.log(e)
       res.sendStatus(500);
     }
   });
@@ -76,8 +80,9 @@ export default (app) => {
           }],
         }],
       });
-      res.json(data.dataValue);
+      res.json(data);
     } catch (err) {
+      console.log(err)
       res.json({});
     }
   });

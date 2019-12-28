@@ -97,14 +97,19 @@ export default (app) => {
 
   app.get('/product/max/price', async (req, res) => {
     try {
-      const data = await Book.findOne({
-        group: ['id'],
-        attributes: [
-          [sequelize.fn('max', sequelize.col('price')), 'max'],
-        ],
-        raw: true,
-      });
-      res.status(200).json(data);
+      const book = await Book.findAll();
+      if (book) {
+        const data = await Book.findOne({
+          group: ['id'],
+          attributes: [
+            [sequelize.fn('max', sequelize.col('price')), 'max'],
+          ],
+          raw: true,
+        });
+        res.status(200).json(data);
+      } else {
+        res.sendStatus(403)
+      }
     } catch (e) {
       console.log(e);
       res.sendStatus(500);

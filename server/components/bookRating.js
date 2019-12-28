@@ -8,12 +8,12 @@ const calcBookRating = (arr) => {
   return ratingSum / arr.length;
 };
 
-export default (app) => {
-  app.use(async (req, res) => {
+export default (app, bookId) => {
+  app.use(async () => {
     try {
       const rating = await Comment.findAll({
         where: {
-          BookId: req.bookId,
+          BookId: bookId,
           rating: {
             [Op.ne]: 0,
             [Op.ne]: null,
@@ -24,18 +24,15 @@ export default (app) => {
       const bookRating = Math.floor(calcBookRating(rating) * 10) / 10;
 
       await Book.update({
-        bookRating,
+        rating: bookRating,
       }, {
         where: {
-          id: req.bookId,
+          id: bookId,
         },
       });
-
-      await res.sendStatus(200);
     } catch (e) {
       // eslint-disable-next-line no-console
       console.log(e);
-      res.sendStatus(500);
     }
   });
 };

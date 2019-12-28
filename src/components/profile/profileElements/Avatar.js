@@ -30,6 +30,7 @@ const Avatar = ({ name }) => {
       dispatch(toLocalStorage(result.token, result.refreshToken));
     }
     dispatch(setUrl(result.url));
+    console.log(result)
   };
 
   return (

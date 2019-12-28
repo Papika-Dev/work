@@ -65,7 +65,7 @@ const authorization = (app) => {
           avatar: avatar.dataValues,
         });
       } else {
-        res.status(200).json({ avatar: avatar.dataValues });
+        res.status(200).json(avatar.dataValues);
       }
     } catch (e) {
       // eslint-disable-next-line no-console
