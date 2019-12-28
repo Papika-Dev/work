@@ -28,7 +28,7 @@ const db = pgp(cn);
 const app = express();
 app.set('trust proxy', true);
 
-const port = (process.env.PORT || 8080);
+const port = (process.env.PORT || 5000);
 
 app.listen(port, (err) => {
   if (err) {
@@ -278,11 +278,6 @@ app.use('/profile/user/:id/favorites', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-app.use('/book/comment', jsonParser, (req, res) => {
-  db.none('INSERT INTO comments (book_id, text, author_name, rating) VALUES ($1, $2, $3, $4);',
-    [req.body.bookId, req.body.text, req.body.author, req.body.rating])
-=======
 const checkInDb = (req, res, next) => {
   db.none('SELECT * FROM favorites WHERE book_id = $1 AND user_id = $2;', [req.params.bookId, req.params.userId])
     .then(() => {
@@ -294,7 +289,6 @@ const checkInDb = (req, res, next) => {
 };
 app.use('/favorites/user:userId/book:bookId', checkInDb, (req, res) => {
   db.none('INSERT INTO favorites (book_id, user_id) VALUES ($1, $2);', [req.params.bookId, req.params.userId])
->>>>>>> origin/favorites
     .then(() => {
       res.sendStatus(200);
     })
@@ -357,6 +351,6 @@ app.use((req, res) => {
 
 
 
-// app.use('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../public/index.html'));
-// });
+app.use('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../public/index.html'));
+});

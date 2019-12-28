@@ -4,12 +4,8 @@ import { BookCardWrapper, ShowComBtn } from '../bookCard/bookCardStyles';
 import BookInfo from '../bookCard/BookInfo';
 import PriceInfo from '../bookCard/PriceInfo';
 import Comments from '../comments/Comments';
-<<<<<<< HEAD
-import CommentBLock from '../bookCard/CommentBlock';
-=======
 import CommentBLock from '../commentBlock/CommentBlock';
 import { GridBox } from '../commentBlock/styles';
->>>>>>> origin/favorites
 
 const MainBookCard = () => {
   const [info, setInfo] = useState(null);
@@ -48,20 +44,11 @@ const MainBookCard = () => {
   const handleCloseComment = () => {
     setShowComment(false);
   };
-<<<<<<< HEAD
-
-  const handleShowCommentBlock = () => {
-    if (info) {
-      showComment(true)
-    }
-  }
-=======
   const handleShowComments = () => {
     if (info) {
       setShowComment(true);
     }
   };
->>>>>>> origin/favorites
   return (
     <>
       {showComment && (
@@ -85,10 +72,6 @@ const MainBookCard = () => {
             <PriceInfo price={info.price} />
           </>
         )}
-<<<<<<< HEAD
-        <CommentBLock />
-        <ShowComBtn onClick={handleShowCommentBlock}>
-=======
         {comment.length > 0 ? (
           comment.map((item) => (
             <CommentBLock
@@ -101,7 +84,6 @@ const MainBookCard = () => {
           ))
         ) : <GridBox>Отзывов нет</GridBox>}
         <ShowComBtn onClick={handleShowComments}>
->>>>>>> origin/favorites
           Написать отзыв
         </ShowComBtn>
       </BookCardWrapper>

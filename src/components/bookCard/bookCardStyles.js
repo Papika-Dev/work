@@ -121,27 +121,6 @@ const ShowComBtn = styled(PriceBtn)`
   box-shadow:2px 2px 3px #b3b3b3;
 `;
 
-<<<<<<< HEAD
-// Comment Block styles
-
-const GridBox = styled.div`
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-row-gap: 7px;
-  grid-column: 1 / 3;
-`;
-
-const Block = styled.div`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-gap: 10px;
-  width: 450px;
-`;
-
-const TextBlock = styled.div`
-  grid-column: 1 / 4;
-`;
-=======
 // BookRating styles
 
 const ROStarWrapper = styled.div`
@@ -206,7 +185,6 @@ ${(props) => props.isdec && css`
 
 `;
 
->>>>>>> origin/favorites
 export {
   BookCardWrapper,
   BookInfoWrapper,
@@ -225,13 +203,7 @@ export {
   IncDecBtn,
   CountText,
   ShowComBtn,
-<<<<<<< HEAD
-  GridBox,
-  Block,
-  TextBlock
-=======
   ROStarWrapper,
   BookReadOnlyStars,
   SvgStar,
->>>>>>> origin/favorites
 };
